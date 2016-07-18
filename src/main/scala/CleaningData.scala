@@ -1,5 +1,6 @@
 import org.apache.spark.sql.{DataFrame, Row}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types.DataType
 /**
   * Created by esdras on 17/07/16.
   */
@@ -34,6 +35,9 @@ object CleaningData {
         dataFrame.na.fill(Map(Log.CONTENT_SIZE.toString -> 0))
   }
 
+  private def cleanTime(str :String):String = {
+    "%d"
+  }
   //TODO
   private def parceTime(dataFrame: DataFrame): DataFrame = {
 
@@ -42,7 +46,22 @@ object CleaningData {
       "Aug" -> 8, "Sep"-> 9, "Oct" -> 10, "Nov" -> 11, "Dec" -> 12
     )
 
-    dataFrame
+    //01/Jul/1995:00:00:01 to
+
+    val udfClean = udf( (str :String) => {
+      "%04d-%02d-%02d %02d:%02d:%02d"
+        .format(
+          str.substring(7,11).toInt,
+          monthMap(str.substring(3,6)),
+          str.substring(0,2).toInt,
+          str.substring(12,14).toInt,
+          str.substring(15,17).toInt,
+          str.substring(18,20).toInt )
+    })
+
+    val time = udfClean(dataFrame(Log.TIME_STAMP)).cast("timestamp").alias("time")
+
+    dataFrame.select( dataFrame("*") , time ).drop("timestamp")
   }
 
 
