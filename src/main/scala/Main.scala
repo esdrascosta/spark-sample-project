@@ -7,6 +7,7 @@ import org.apache.spark.sql.SQLContext
 object Main {
   def main(args: Array[String]): Unit = {
 
+    // TODO replace to get from properties file
     val file = "/home/esdras/data_analisis/access_log_Jul95.d/access_log_Jul95"
     val conf = new SparkConf().setMaster("local").setAppName("log-analysis")
     val sc = new SparkContext(conf)
