@@ -33,19 +33,12 @@ package object DataCleaner {
       dataFrame.na.fill(Map(Log.CONTENT_SIZE.toString -> 0))
     }
 
-    private def cleanTime(str: String): String = {
-      "%d"
-    }
-
-    //TODO
-    private def parceTime(dataFrame: DataFrame): DataFrame = {
+    private def parseTime(dataFrame: DataFrame): DataFrame = {
 
       val monthMap = Map(
         "Jan" -> 1, "Feb" -> 2, "Mar" -> 3, "Apr" -> 4, "May" -> 5, "Jun" -> 6, "Jul" -> 7,
         "Aug" -> 8, "Sep" -> 9, "Oct" -> 10, "Nov" -> 11, "Dec" -> 12
       )
-
-      //01/Jul/1995:00:00:01 to
 
       val udfClean = udf((str: String) => {
         "%04d-%02d-%02d %02d:%02d:%02d"
@@ -65,8 +58,8 @@ package object DataCleaner {
 
 
     def clean(dataFrame: DataFrame): DataFrame = {
-      val extracedColumns = extractColumns(dataFrame)
-      val fixedContentSize = fixContentSize(extracedColumns)
-      parceTime(fixedContentSize)
+      val extractedColumns = extractColumns(dataFrame)
+      val fixedContentSize = fixContentSize(extractedColumns)
+      parseTime(fixedContentSize)
     }
 }
