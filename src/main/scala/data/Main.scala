@@ -16,7 +16,6 @@ object Main {
     val baseDF = spark.read.text(data)
     val logDF = DataCleaner.clean(baseDF)
 
-    //Example: HTTP Status Analysis
     HTTPStatus(logDF)
     Top100Paths(logDF)
   }

@@ -11,7 +11,7 @@ import org.apache.spark.sql.DataFrame
   */
 class HTTPStatus(dataFrame: DataFrame) extends Analyzable {
 
-  private val file = "result_data/_http_status.json";
+  private val file = "result_data/_http_status.json"
   private val destinationFile= "result_data/http_status.json"
 
   override def analyzeAndGenFile: Unit = {
