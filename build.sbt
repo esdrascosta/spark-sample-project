@@ -24,3 +24,7 @@ libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0"
 // testing
 libraryDependencies += "org.scalatest"  %% "scalatest" % "2.2.6" % "test"
 
+//config
+libraryDependencies += "com.typesafe" % "config" % "1.3.1"
+
+
